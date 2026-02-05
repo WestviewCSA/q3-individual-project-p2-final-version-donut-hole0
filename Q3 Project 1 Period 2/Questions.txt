@@ -1,3 +1,19 @@
 Questions:
 
 Write as many questions as you can based on the project specs.
+What exactly does | mean? [o]
+Are open walkways just used if there is no possible way to reach the Wolerine Buck? [c]
+Are all of the generated mazes random? [c]
+Are we allowed to get help from Ai? [c]
+Is their a requirement on how many mazes we need? [c]
+Are the mazes predetermined? [c]
+What does TBA mean? [o]
+Will we get any starter code? [c]
+Do we code everything from scratch? [c]
+When is the project due; the pdf and the assignmnet on Github are contradicting. [o]
+When is the design plan due? [o]
+How much time in class will we get to work on this? [o]
+Will we need to spend time working on this project at home? [o]
+Can we collaborate with others? [c]
+What resources are we allowed to use to help us complete this project? [o]
+What resources do you think will be helpful for us to finish this project? [o]
