@@ -1,0 +1,24 @@
+Week 1: 
+               Make sure I can push and commit changes to repository linked to GitHub classroom assignment. 
+               Create easy/medium/hard maps showing some understanding of the maps
+               Create easy/medium/hard coordinate-based maps showing understanding of the 2nd type of input files.
+               Be able to read in data from map files
+               Be able to store data from map files
+               Be able to check for errors in data from map files while reading
+               
+Week 2: 
+               Start writing code that works with Queue-based approach
+               Start writing code that works with Stack-based approach
+               
+Week 3:
+               Start writing code that works with Optimal-based approach
+               Start writing code to measure runtime for each approach
+
+
+Week 4 (EVERYTHING IS DUE THIS COMING SUNDAY [3/22] 11:59 PM): 
+
+               Create code for command line arguments
+               Make sure you have all exception statements
+               Trade maps for testing (Need 10 in total)
+               Extra Credit
+               
