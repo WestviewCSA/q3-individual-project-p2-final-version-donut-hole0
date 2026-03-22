@@ -232,6 +232,11 @@ public class Runner{
 	                if (nLevel >= levels) {
 	                    continue;
 	                }
+	                
+	                
+	                if (visited[nRow][nCol][nLevel]) {
+		                continue;
+		            }
 	            }
 	    		
 	    		visited[nRow][nCol][nLevel] = true;
@@ -255,6 +260,7 @@ public class Runner{
 	    }
 	    
 	    if (goal == null) {
+	    	System.out.println("The Wolverine Store is closed.");
 	        return;
 	    }
 	    
