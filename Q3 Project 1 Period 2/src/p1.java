@@ -14,25 +14,75 @@ public class p1{
 	public static void main(String[] arg) {
 		boolean useQueue = false;
 		boolean useStack = false;
-		boolean useOptimal = false;
+		boolean useOpt = false;
 		boolean useTime = false;
 		boolean inCoord = false;
 		boolean outCoord = false;
 		
 		
+		for(int i =0;  i < arg.length -1; i++) {
+			if(arg[i].equals("--Queue")) {
+				useQueue = true;
+			} else if(arg[i].equals("--Stack")) {
+				useStack = true;
+			} else if(arg[i].equals("--Opt")) {
+				useOpt = true;
+			} else if(arg[i].equals("--Time")) {
+				useTime = true;
+			} else if(arg[i].equals("--Incoordinate")) {
+				inCoord = true;
+			} else if(arg[i].equals("--Outcoordinate")) {
+				outCoord = true;
+			} else if(arg[i].equals("--Help")) {
+				System.out.println("This program finds a path through a maze");
+	            System.out.println("--Stack 		: use stack-based approach");
+	            System.out.println("--Queue 		: use queue-based approach");
+	            System.out.println("--Opt   		: use optimal path approach");
+	            System.out.println("--Time  		: print runtime");
+	            System.out.println("--Incoordinate  : input is coordinate format");
+	            System.out.println("--Outcoordinate : output is coordinate format");
+	            System.exit(0);
+			}
+		}
 		
-		if (arg.length<1) {
-			System.out.println("No file name provided");
+		int c = 0;
+		if(useQueue) {
+			c++;
 		}
-		else {
-			p1 m = new p1(arg[0]);
+		if(useStack) {
+			c++;
 		}
+		if(useOpt) {
+			c++;
+		}
+		
+		if(c != 1) {
+			System.out.println("Error: must use exactly one of --Stack, --Queue, or --Opt");
+			System.exit(-1);
+		}
+		
+		String filename = arg[arg.length - 1];
+		p1 m = new p1(filename, useStack, useQueue, useOpt, useTime, inCoord, outCoord);
 	}
 	
-	public p1(String filename) {
-		if(readMap(filename)) {
-			printMap();
-			solveStack();
+	public p1(String filename, boolean useStack, boolean useQueue, boolean useOpt,
+	          boolean useTime, boolean inCoord, boolean outCoord) {
+		
+		boolean loadedMap = false;
+		
+		if(inCoord) {
+			loadedMap = readCord(filename);
+		} else {
+			loadedMap = readMap(filename);
+		}
+		if(loadedMap) {
+			if(useQueue) {
+				solveQueue();
+			} else if(useStack) {
+				solveStack();
+			} else if (useOpt) {
+				solveOptimal();
+			}
 		} else {
 			System.out.println("Failed to load map: " + filename);
 		}
