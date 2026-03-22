@@ -12,6 +12,15 @@ public class p1{
 	private char[][][] map;
 	
 	public static void main(String[] arg) {
+		boolean useQueue = false;
+		boolean useStack = false;
+		boolean useOptimal = false;
+		boolean useTime = false;
+		boolean inCoord = false;
+		boolean outCoord = false;
+		
+		
+		
 		if (arg.length<1) {
 			System.out.println("No file name provided");
 		}
