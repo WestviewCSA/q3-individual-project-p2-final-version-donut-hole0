@@ -138,6 +138,32 @@ public class Runner{
 		return true;
 	}
 	
+	public void solveQueue() {
+		int rows   = map.length;
+	    int cols   = map[0].length;
+	    int levels = map[0][0].length;
+	    
+	    int startRow = -1;
+	    int startCol = -1;
+	    int startLevel = 0;
+	    boolean found = false;
+	    
+	    
+	    for(int level = 0; level < levels; level++) {
+	    	for(int row = 0; row < rows; row++) {
+	    		for(int col = 0; col < cols; col++) {
+	    			if(!found && map[row][col][level] == 'W') {
+	    				startRow = row;
+	    				startCol = col;
+	    				startLevel = level;
+	    				found = true;
+	    			}
+	    			
+	    		}
+	    	}
+	    }
+	}
+	
 	
 }
 
