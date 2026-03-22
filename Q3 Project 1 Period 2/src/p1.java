@@ -7,7 +7,7 @@ import java.util.Stack;
 
 import javax.sound.sampled.Line;
 
-public class Runner{
+public class p1{
 	
 	private char[][][] map;
 	
@@ -16,11 +16,11 @@ public class Runner{
 			System.out.println("No file name provided");
 		}
 		else {
-			Runner m = new Runner(arg[0]);
+			p1 m = new p1(arg[0]);
 		}
 	}
 	
-	public Runner(String filename) {
+	public p1(String filename) {
 		if(readMap(filename)) {
 			printMap();
 			solveStack();
