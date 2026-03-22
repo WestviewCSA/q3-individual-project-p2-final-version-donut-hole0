@@ -76,6 +76,9 @@ public class p1{
 			loadedMap = readMap(filename);
 		}
 		if(loadedMap) {
+			
+			long startTime = System.nanoTime();
+			
 			if(useQueue) {
 				solveQueue();
 			} else if(useStack) {
@@ -83,6 +86,14 @@ public class p1{
 			} else if (useOpt) {
 				solveOptimal();
 			}
+			
+			if(useTime) {
+				long endTime = System.nanoTime();
+				double seconds = (endTime - startTime) / 1000000000.0;
+				
+				System.out.println("Total Runtime: " + seconds + " seconds");
+			}
+			
 		} else {
 			System.out.println("Failed to load map: " + filename);
 		}
@@ -98,14 +109,12 @@ public class p1{
 		int cols = map[0].length;
 		
 		for (int level = 0; level < levels; level++) {
-			System.out.println("Level" + level);
 			for(int row = 0; row < rows; row++) {
-				for(int col = 0; col < cols; col++) {
-					System.out.print(map[row][col][level] + " ");
+				for(int col = 0; col < cols; col++) {	
+					System.out.print(map[row][col][level]);
 				}
 				System.out.println();
 			}
-			System.out.println();
 		}
 	}
 	
