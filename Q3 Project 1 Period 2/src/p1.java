@@ -80,11 +80,11 @@ public class p1{
 			long startTime = System.nanoTime();
 			
 			if(useQueue) {
-				solveQueue();
+				solveQueue(outCoord);
 			} else if(useStack) {
-				solveStack();
+				solveStack(outCoord);
 			} else if (useOpt) {
-				solveOptimal();
+				solveOptimal(outCoord);
 			}
 			
 			if(useTime) {
@@ -213,7 +213,7 @@ public class p1{
 		return true;
 	}
 	
-	public void solveQueue() {
+	public void solveQueue(boolean outCoord) {
 		int rows   = map.length;
 	    int cols   = map[0].length;
 	    int levels = map[0][0].length;
@@ -344,6 +344,8 @@ public class p1{
 	        return;
 	    }
 	    
+	    //going backwards and getting path
+	    int pathLength = 0;
 	    int[] curr = goal;
 
 	    while (true) {
@@ -352,20 +354,53 @@ public class p1{
 	    	if (p[0] == -1) {
 	            break;
 	        }
-	    	
-	    	if (map[p[0]][p[1]][p[2]] != 'W') {
-	            map[p[0]][p[1]][p[2]] = '+';
-	        }
+	    	pathLength++;
 	    	
 	    	curr= p;
 	    }
-	    printMap();
 	    
+	    //storing path 
+	    int[][] path = new int[pathLength][3];
+	    int index = pathLength-1;
+	    
+	    curr = goal;
+	    
+	    while(index >=0) {
+	    	int[] p = sol[curr[0]][curr[1]][curr[2]];
+	    	
+	    	if (p[0] == -1) {
+	            break;
+	        }
+	    	
+	    	if(map[p[0]][p[1]][p[2]] != 'W') {
+	    		map[p[0]][p[1]][p[2]] = '+';
+	    	}
+	    	
+	    	path[index][0] = p[0];
+	    	path[index][1] = p[1];
+	    	path[index][2] = p[2];
+	    	
+	    	index --; 
+	    	curr = p;
+	    }
+	    
+	    if(outCoord) {
+	    	printCoord(path);
+	    } else {
+	    	printMap();
+	    }
 	}
 	
 	
+	private void printCoord(int[][] path) {
+		for (int i = 0; i < path.length; i++) {
+			System.out.println("+ " + path[i][0] + " " + path[i][1] + " " + path[i][2]);
+		}
+		
+	}
+
 	// same code as solveQueue() but just using stack and pop/push
-	public void solveStack() {
+	public void solveStack(boolean outCoord) {
 		
 		
 		int rows   = map.length;
@@ -498,6 +533,7 @@ public class p1{
 	        return;
 	    }
 	    
+	    int pathLength = 0;
 	    int[] curr = goal;
 
 	    while (true) {
@@ -506,19 +542,46 @@ public class p1{
 	    	if (p[0] == -1) {
 	            break;
 	        }
-	    	
-	    	if (map[p[0]][p[1]][p[2]] != 'W') {
-	            map[p[0]][p[1]][p[2]] = '+';
-	        }
+	    	pathLength++;
 	    	
 	    	curr= p;
 	    }
-	    printMap();
+	    
+	    //storing path 
+	    int[][] path = new int[pathLength][3];
+	    int index = pathLength-1;
+	    
+	    curr = goal;
+	    
+	    while(index >=0) {
+	    	int[] p = sol[curr[0]][curr[1]][curr[2]];
+	    	
+	    	if (p[0] == -1) {
+	            break;
+	        }
+	    	
+	    	if(map[p[0]][p[1]][p[2]] != 'W') {
+	    		map[p[0]][p[1]][p[2]] = '+';
+	    	}
+	    	
+	    	path[index][0] = p[0];
+	    	path[index][1] = p[1];
+	    	path[index][2] = p[2];
+	    	
+	    	index --; 
+	    	curr = p;
+	    }
+	    
+	    if(outCoord) {
+	    	printCoord(path);
+	    } else {
+	    	printMap();
+	    }
 	}
 	
 	
 	// same code as solveQueue() but it solves in less time thank solveQueue() + solveStack()
-	public void solveOptimal() {
+	public void solveOptimal(boolean outCoord) {
 		int rows   = map.length;
 	    int cols   = map[0].length;
 	    int levels = map[0][0].length;
@@ -649,6 +712,7 @@ public class p1{
 	        return;
 	    }
 	    
+	    int pathLength = 0;
 	    int[] curr = goal;
 
 	    while (true) {
@@ -657,15 +721,41 @@ public class p1{
 	    	if (p[0] == -1) {
 	            break;
 	        }
-	    	
-	    	if (map[p[0]][p[1]][p[2]] != 'W') {
-	            map[p[0]][p[1]][p[2]] = '+';
-	        }
+	    	pathLength++;
 	    	
 	    	curr= p;
 	    }
-	    printMap();
 	    
+	    //storing path 
+	    int[][] path = new int[pathLength][3];
+	    int index = pathLength-1;
+	    
+	    curr = goal;
+	    
+	    while(index >=0) {
+	    	int[] p = sol[curr[0]][curr[1]][curr[2]];
+	    	
+	    	if (p[0] == -1) {
+	            break;
+	        }
+	    	
+	    	if(map[p[0]][p[1]][p[2]] != 'W') {
+	    		map[p[0]][p[1]][p[2]] = '+';
+	    	}
+	    	
+	    	path[index][0] = p[0];
+	    	path[index][1] = p[1];
+	    	path[index][2] = p[2];
+	    	
+	    	index --; 
+	    	curr = p;
+	    }
+	    
+	    if(outCoord) {
+	    	printCoord(path);
+	    } else {
+	    	printMap();
+	    }
 	}
 	
 }
