@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 import javax.sound.sampled.Line;
@@ -20,9 +22,12 @@ public class Runner{
 	public Runner(String filename) {
 		if(readMap(filename)) {
 			printMap();
+			solveQueue();
 		} else {
 			System.out.println("Failed to load map: " + filename);
 		}
+		
+		
 		
 	}
 	
@@ -36,7 +41,7 @@ public class Runner{
 			System.out.println("Level" + level);
 			for(int row = 0; row < rows; row++) {
 				for(int col = 0; col < cols; col++) {
-					System.out.println(map[row][col][level] + " ");
+					System.out.print(map[row][col][level] + " ");
 				}
 				System.out.println();
 			}
@@ -108,7 +113,7 @@ public class Runner{
 			
 			// filling everything with open pathway
 			for (int row = 0; row < rows; row++) {
-			    for (int col = 0; col < rows; col++) {
+			    for (int col = 0; col < cols; col++) {
 			    	for(int level = 0; level<levels; level++) {
 			    		map[row][col][level] = '.';
 			    	}
@@ -122,6 +127,7 @@ public class Runner{
 				
 				if(type != 'W' && type != '|' && type != '$' && type != '@' && type != '.') {
 					System.out.println("Invalid character: '" + type + "'\nPoint: (" + row + "," + col + ")\nLevel: " + level);
+					return false;
 				}
 				
 				if(row < 0 || row >= rows || col < 0 || col >= cols || level < 0 || level >= levels) {
@@ -143,6 +149,9 @@ public class Runner{
 	    int cols   = map[0].length;
 	    int levels = map[0][0].length;
 	    
+	    int[] dRow = {-1, 1, 0, 0};
+	    int[] dCol = { 0, 0, 1,-1};
+	    
 	    int startRow = -1;
 	    int startCol = -1;
 	    int startLevel = 0;
@@ -162,6 +171,110 @@ public class Runner{
 	    		}
 	    	}
 	    }
+	    
+	    int[][][][] sol = new int[rows][cols][levels][3];
+	    
+	    // use -1 as symbol for not visited yet
+	    for(int r = 0; r < rows; r++) {
+	    	for(int c = 0; c < cols; c++) {
+	    		for(int l = 0; l < levels; l++) {
+	    			sol[r][c][l][0] = -1;
+	    			sol[r][c][l][1] = -1;
+	    			sol[r][c][l][2] = -1;
+	    		}
+	    	}
+	    }
+	    
+	    boolean[][][] visited = new boolean[rows][cols][levels];
+	    
+	    Queue<int[]> queue = new LinkedList<int[]>();
+	    
+	    visited[startRow][startCol][startLevel] = true;
+	    
+	    int[] start = {startRow, startCol, startLevel};
+	    
+	    queue.add(start);
+	    
+	    
+	    int[] goal = null;
+	    
+	    while(!queue.isEmpty()) {
+	    	int[] current = queue.remove();
+	    	int row = current[0];
+	    	int col = current[1];
+	    	int level = current[2];
+	    	
+	    	// checking north, south, east, west
+	    	
+	    	for(int d = 0; d < 4; d++) {
+	    		int nRow = row + dRow[d];
+	    		int nCol = col + dCol[d];
+	    		int nLevel = level;
+	    		
+	    		// checks if out of bounds
+	    		if (nRow < 0 || nRow >= rows || nCol < 0 || nCol >= cols) {
+	                continue;
+	            }
+	    		
+	    		
+	    		// checks visited
+	    		if (visited[nRow][nCol][nLevel]) {
+	                continue;
+	            }
+	    		
+	    		
+	    		if (map[nRow][nCol][nLevel] == '@') {
+	                continue;
+	            }
+	    		
+	    		if (map[nRow][nCol][nLevel] == '|') {
+	                nLevel = level + 1;
+	                if (nLevel >= levels) {
+	                    continue;
+	                }
+	            }
+	    		
+	    		visited[nRow][nCol][nLevel] = true;
+	    		sol[nRow][nCol][nLevel][0] = row;
+	    		sol[nRow][nCol][nLevel][1] = col;
+	    		sol[nRow][nCol][nLevel][2] = level;
+	    		
+	    		int[] v = {nRow, nCol, nLevel};
+	    		queue.add(v);
+	    		
+	    		if (map[nRow][nCol][nLevel] == '$') {
+	                goal = new int[]{nRow, nCol, nLevel};
+	                break;
+	            }
+
+	    	}
+	    	
+	    	if (goal != null) {
+	            break;
+	        }
+	    }
+	    
+	    if (goal == null) {
+	        return;
+	    }
+	    
+	    int[] curr = goal;
+
+	    while (true) {
+	    	int[] p = sol[curr[0]][curr[1]][curr[2]];
+	    	
+	    	if (p[0] == -1) {
+	            break;
+	        }
+	    	
+	    	if (map[p[0]][p[1]][p[2]] != 'W') {
+	            map[p[0]][p[1]][p[2]] = '+';
+	        }
+	    	
+	    	curr= p;
+	    }
+	    printMap();
+	    
 	}
 	
 	
