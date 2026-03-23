@@ -62,46 +62,35 @@ public class p1{
 		}
 		
 		String filename = arg[arg.length - 1];
-		p1 m = new p1(filename, useStack, useQueue, useOpt, useTime, inCoord, outCoord);
-	}
-	
-	public p1(String filename, boolean useStack, boolean useQueue, boolean useOpt,
-	          boolean useTime, boolean inCoord, boolean outCoord) {
-		
+		p1 program = new p1();
+
 		boolean loadedMap = false;
-		
 		if(inCoord) {
-			loadedMap = readCord(filename);
+		    loadedMap = program.readCord(filename);
 		} else {
-			loadedMap = readMap(filename);
+		    loadedMap = program.readMap(filename);
 		}
+
 		if(loadedMap) {
-			
-			long startTime = System.nanoTime();
-			
-			if(useQueue) {
-				solveQueue(outCoord);
-			} else if(useStack) {
-				solveStack(outCoord);
-			} else if (useOpt) {
-				solveOptimal(outCoord);
-			}
-			
-			if(useTime) {
-				long endTime = System.nanoTime();
-				double seconds = (endTime - startTime) / 1000000000.0;
-				
-				System.out.println("Total Runtime: " + seconds + " seconds");
-			}
-			
+		    long startTime = System.nanoTime();
+
+		    if(useQueue)      program.solveQueue(outCoord);
+		    else if(useStack) program.solveStack(outCoord);
+		    else if(useOpt)   program.solveOptimal(outCoord);
+
+		    if(useTime) {
+		        long endTime = System.nanoTime();
+		        double seconds = (endTime - startTime) / 1000000000.0;
+		        System.out.printf("Total Runtime: %.6f seconds%n", seconds);
+		    }
 		} else {
-			System.out.println("Failed to load map: " + filename);
+		    System.out.println("Failed to load map: " + filename);
+		    System.exit(-1);
 		}
-		
-		
-		
 	}
 	
+	public p1() {}
+
 	public void printMap() {
 		
 		int levels = map[0][0].length;
@@ -394,6 +383,10 @@ public class p1{
 	
 	private void printCoord(int[][] path) {
 		for (int i = 0; i < path.length; i++) {
+			
+			if (map[path[i][0]][path[i][1]][path[i][2]] == 'W') {
+	            continue;
+	        }
 			System.out.println("+ " + path[i][0] + " " + path[i][1] + " " + path[i][2]);
 		}
 		
